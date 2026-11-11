@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-wordmark: "Montserrat", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Brand palette */
+  --color-canvas: #ffffff;
+  --color-canvas-2: #f8fafc;
+  --color-navy: #0b192c;
+  --color-navy-2: #132b4a;
+  --color-mint: #10b981;
+  --color-mint-2: #059669;
+  --color-mint-soft: #d1fae5;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--color-canvas);
+  color: var(--color-navy);
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(16, 185, 129, 0.25);
+  color: var(--color-navy);
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Ambient motion */
+@keyframes drift-a {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(50px, -30px, 0) scale(1.06); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-40px, 40px, 0) scale(0.95); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.55); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fade-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(10px) scale(0.98); }
+}
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes backdrop-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.animate-drift-a { animation: drift-a 18s ease-in-out infinite; }
+.animate-drift-b { animation: drift-b 22s ease-in-out infinite; }
+.animate-float { animation: float-y 6s ease-in-out infinite; }
+.animate-pulse-dot { animation: pulse-dot 2s infinite; }
+.animate-fade-up { animation: fade-up 320ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.animate-fade-out { animation: fade-out 220ms ease-in both; }
+.animate-backdrop-in { animation: backdrop-in 260ms ease-out both; }
+.animate-backdrop-out { animation: backdrop-out 220ms ease-in both; }
+
+/* Surfaces */
+.card {
+  background: #ffffff;
+  border: 1px solid rgba(11, 25, 44, 0.08);
+  box-shadow: 0 1px 2px rgba(11, 25, 44, 0.04), 0 12px 32px -16px rgba(11, 25, 44, 0.12);
+}
+.card-hover {
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 400ms ease, border-color 400ms ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(16, 185, 129, 0.45);
+  box-shadow: 0 1px 2px rgba(11, 25, 44, 0.04), 0 24px 48px -20px rgba(16, 185, 129, 0.35);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(11, 25, 44, 0.08);
+  box-shadow: 0 8px 30px -14px rgba(11, 25, 44, 0.18);
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--color-navy) 0%, var(--color-mint) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.btn-sheen::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-20deg);
+  transition: left 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-sheen:hover::after { left: 130%; }
+
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(11, 25, 44, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(11, 25, 44, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
